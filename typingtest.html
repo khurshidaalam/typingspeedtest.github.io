@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<head>
+<title></title>
+<style>
+	*{
+		margin:0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+	.maindiv{
+     background-color: #18a4e6;
+     height: 100vh;
+     text-align: center;
+	}
+	.centerdiv {
+    position: relative;
+    top: 20%;
+    height: 100%;
+	}
+	h1 {
+    font-size: 35px;
+    color: white;
+    font-family: monospace;
+    text-shadow: 1px 1px 1px black;
+    text-transform: capitalize;
+   }
+   #words {
+    background-color: #708090bd;
+    color: white;
+    border: 11px solid #00000047;
+    border-radius: 19px;
+    font-size: 16px;
+    padding: 13px;
+   }
+   #btn {
+    width: 77px;
+    height: 33px;
+    margin-top: 8px;
+    border-radius: 8px;
+    background-color: steelblue;
+    color: #171515;
+    font-family: monospace;
+    font-weight: 500;
+    font-size: 17px;
+   }
+   h2 {
+    font-family: sans-serif;
+    font-size: 20px;
+    text-shadow: 1px 1px 11px #f9f4f4;
+    margin-top: 17px;
+    font-weight: bold;
+   }
+</style>
+</head>
+<body>
+ <div class="maindiv">
+ 	<div class="centerdiv">
+ 		<h1> Welcome to Typing speed test</h1>
+ 		<h2 id="msg"></h2><br>
+ 		<textarea id="words" cols="100" rows="10" placeholder="enter texts"></textarea><br>
+ 		<button id="btn" class="="mainbtn>submit</button>
+ 	</div>
+ </div>
+
+<script>
+	
+	const setOfWords = [
+		  "I am a person who is positive about every aspect of life.",
+		   "There are many things I like to do, to see, and to experience.",
+		   "I like to read, I like to write; I like to think,I like to see the sunrise in the morning."
+	];
+
+	const msg = document.getElementById('msg');
+	const words = document.getElementById('words');
+	const btn = document.getElementById('btn');
+
+	let startTime,endTime;
+    
+    const playGame = () =>{
+    	let randomNumber = Math.floor(Math.random()*setOfWords.length);
+    	msg.innerText = setOfWords[randomNumber];
+    	let date = new Date();
+    	startTime = date.getTime();
+    	btn.innerText = "Done";
+    	//console.log(randomNumber);
+    }
+    
+    const endPlay = () =>{
+      let date = new Date();
+    	endTime = date.getTime();
+    	let totaltime = ((endTime-startTime)/1000);
+    	console.log(totaltime);
+
+    	let totalStr = words.value;
+    	let wordCount = wordCounter(totalStr);
+
+    	let speed = Math.round((wordCount / totaltime) * 60);
+
+    	let finalmsg = "you typed total "+speed+" words per minutes.";
+
+    	finalmsg += compareWords(msg.innerText,totalStr);
+
+    	msg.innerText = finalmsg;
+    }
+    
+    const compareWords = (str1, str2) =>{
+    	let words1 = str1.split(" ");
+    	let words2 = str2.split(" ");
+    	let cnt = 0;
+
+    	words1.forEach(function(item, index){
+    		if(item == words2[index]){
+    			cnt++;
+    		}
+    	})
+
+    	let errorWords = (words1.length - cnt);
+    	return (cnt + " correct out of " + words1.length + " words and total number of error are " + errorWords + ".");
+
+    }
+
+    const wordCounter = (str) =>{
+    	let response = str.split(" ").length;
+    	console.log(response);
+    	return response;
+    }
+
+	btn.addEventListener('click',function(){
+		if(this.innerText == 'submit'){
+			words.disabled = false;
+			playGame();
+		}else if(this.innerText = "Done"){
+			words.disabled = true;
+			btn.innerText = "submit";
+			endPlay();
+		}
+	})
+
+
+</script>
+
+</body>
+</html>
